@@ -27,64 +27,69 @@ final List<Map<String, dynamic>> daftarBarang = [
   {'nama': 'Pensil Warna', 'anggota': 7500, 'umum': 9000, 'stok': 19, 'kategori': 'atk'},
 ];
 
-void main() => runApp(const MaterialApp(
-  debugShowCheckedModeBanner: false,
-  home: LayarUtama(),
-));
+void main() => runApp(const MyApp());
+class MyApp extends StatefulWidget {
+  const MyApp({super.key});
 
-class LayarUtama extends StatefulWidget {
-  const LayarUtama({super.key});
-  
   @override
-  State<LayarUtama> createState() => _LayarUtamaState();
+  State<MyApp> createState() => _MyAppState();
 }
 
-class _LayarUtamaState extends State<LayarUtama> {
-  String kataKunci = "";
+class _MyAppState extends State<MyApp> {
+  late TextEditingController _controller;
+  String kataCari = '';
+
+@override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController();
+  }
+
+@override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final List<Map<String, dynamic>> barangTersedia = daftarBarang.where((barang) {
-      final sisaStok = barang['stok'] > 0;
-      final cocokPencarian = barang['nama'].toLowerCase().contains(kataKunci.toLowerCase());
-      return sisaStok && cocokPencarian;
-    }).toList();
-
-    return Scaffold(
-      appBar: AppBar(title: const Text('Koperasi Sekolah')),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: TextField(
+    final hasilCari = daftarBarang 
+        .where((b) => b['nama'].toLowerCase().contains(kataCari))
+        .toList();
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(title: const Text('Koperasi Sekolah')),
+        body: Column(
+          children: [
+            TextField(
+              controller: _controller,
               decoration: const InputDecoration(
                 labelText: 'Cari Barang....',
                 prefixIcon: Icon(Icons.search),
-                border: OutlineInputBorder(),
               ),
-              onChanged: (teks) {
+              onChanged: (nilai) {
                 setState(() {
-                  kataKunci = teks;
+                  kataCari = nilai.toLowerCase();
                 });
               },
             ),
-          ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: barangTersedia.length,
-              itemBuilder: (context, index) {
-                final barang = barangTersedia[index];
-                return BarangCard(
-                  nama: barang['nama'], 
-                  hargaAnggota: barang['anggota'], 
-                  stok: barang['stok'], 
-                  kategori: barang['kategori']
-                );
-              },
+            Expanded(
+              child: ListView.builder(
+                itemCount: hasilCari.length,
+                itemBuilder: (context, index) {
+                  final barang = hasilCari[index];
+                  return BarangCard(
+                    nama: barang['nama'],
+                    hargaAnggota: barang['anggota'],
+                    stok: barang['stok'],
+                    kategori: barang['kategori'],
+                  );
+                },
+              ),
             ),
-          ),
-        ],
-      ),
+          ],
+        ),
+      )
     );
   }
 }
