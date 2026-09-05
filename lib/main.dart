@@ -15,7 +15,7 @@ IconData pilihIkonKategori(String kategori) {
 }
 
 final List<Map<String, dynamic>> daftarBarang = [
-  {'nama': 'Buku Tulis', 'anggota': 3000, 'umum': 3500, 'stok': 0, 'kategori': 'atk'},
+  {'nama': 'Buku Tulis Bergaris 58 Lembar Sampul Tebal merek Nissin keluaran terbaru 2026', 'anggota': 3000, 'umum': 3500, 'stok': 0, 'kategori': 'atk'},
   {'nama': 'Buku Gambar', 'anggota': 2000, 'umum': 3000, 'stok': 30, 'kategori': 'atk'},
   {'nama': 'Penghapus', 'anggota': 2500, 'umum': 3500, 'stok': 0, 'kategori': 'atk'},
   {'nama': 'Pulpen', 'anggota': 2000, 'umum': 2500, 'stok': 80, 'kategori': 'atk'},
